@@ -1,0 +1,13 @@
+[package]
+name = "traversal-minimal-bot"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+publish = false
+description = "Le plus petit bot de l'arène (exemple de la page « Créer un bot »)."
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+traversal-bot = { path = "../../sdk" }

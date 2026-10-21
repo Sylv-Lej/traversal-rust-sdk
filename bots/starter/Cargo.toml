@@ -1,0 +1,13 @@
+[package]
+name = "traversal-starter-bot"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+publish = false
+description = "Bot de départ de l'arène : le bot du site (Galet à Mont Blanc), borné par le fuel."
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+traversal-bot = { path = "../../sdk" }

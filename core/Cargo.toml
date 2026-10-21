@@ -1,0 +1,13 @@
+[package]
+name = "traversal-core"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+description = "Moteur du jeu Traversal : règles, coups légaux, bot de référence, format des tours de l'arène."
+license.workspace = true
+repository.workspace = true
+readme = "README.md"
+keywords = ["traversal", "game", "board-game", "bot"]
+categories = ["games", "game-engines"]
+
+[dependencies]

@@ -1,0 +1,19 @@
+# Généré depuis le dépôt du site, qui reste la référence : ne pas éditer ici, la
+# prochaine synchronisation l'écraserait.
+[workspace]
+resolver = "2"
+members = ["core", "sdk", "bots/starter", "bots/minimal"]
+# L'outil de test (wasmtime, client HTTP) a son propre Cargo.lock.
+exclude = ["arena"]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.80"
+license = "MIT"
+repository = "https://github.com/Sylv-Lej/traversal-rust-sdk"
+
+[profile.release]
+opt-level = 3
+lto = "thin"
+codegen-units = 1
