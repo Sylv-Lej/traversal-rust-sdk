@@ -11,6 +11,7 @@ c'est l'algorithme qui gagne, pas la machine.
 | `traversal-core` (`core/`) | le moteur : règles, coups légaux, bot de référence, format des tours (importé par le SDK, rien à déclarer) |
 | `bots/starter/` | le bot du site (Galet à Mont Blanc), borné par le fuel : le point de départ conseillé |
 | `bots/minimal/` | le plus petit bot possible |
+| `bots/neural/` | un bot dont l'évaluation est un réseau de neurones entraîné en Python |
 | `arena/` | `traversal-arena` : le bac à sable de l'arène, pour tester en local |
 
 > Ce dépôt est un **miroir** généré depuis le dépôt du site, qui reste la référence (le
@@ -59,6 +60,35 @@ Pour aller plus loin, copie `bots/starter` : c'est le bot du site lui-même
 (`traversal_bot::core::choose_move`), qui s'arrête quand son fuel baisse
 (`traversal_bot::fuel_left()`). `traversal_bot::log("…")` écrit un message visible en
 local avec `--verbose`.
+
+## Écrire un bot en Python
+
+Un interpréteur Python ne tient pas dans le module de 1 Mo de l'arène. Python sert donc
+à **entraîner** le bot, et Rust à le **faire jouer** : on entraîne un réseau de neurones
+en Python, on exporte ses poids dans un fichier, et un petit bot Rust les embarque à la
+compilation. C'est ce que fait `bots/neural`, un exemple très simple (353 paramètres,
+numpy seul) qui montre toute la chaîne :
+
+```text
+ examples/dataset.rs   ──►   train.py      ──►   src/lib.rs
+ (Rust natif)                (Python)            (Rust → WebAssembly)
+ parties d'auto-jeu          entraîne le         include_bytes!("weights.bin")
+ → data.csv                  réseau              + calcul du réseau
+                             → weights.bin       → le .wasm à envoyer
+```
+
+```bash
+cd bots/neural
+cargo run --release --example dataset > data.csv    # 1. les données
+python3 train.py                                    # 2. l'entraînement -> weights.bin
+cargo build --release --target wasm32-unknown-unknown   # 3. le bot, poids compris
+# -> target/wasm32-unknown-unknown/release/traversal_neural_bot.wasm
+```
+
+Côté Python, on change les données et le réseau ; côté Rust, il n'y a qu'à garder la
+même fonction `features` (ce que voit le réseau) et le même format de `weights.bin`.
+Les détails (format des poids, limites de taille et de fuel, pistes pour un vrai réseau)
+sont dans [`bots/neural/README.md`](bots/neural/README.md).
 
 ## Tester en local
 

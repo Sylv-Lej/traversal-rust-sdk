@@ -66,7 +66,10 @@ pub fn engine() -> Engine {
     let mut c = Config::new();
     c.consume_fuel(true);
     c.cranelift_nan_canonicalization(true);
+    // Pas de SIMD : moins de compilateur exposé (plusieurs failles publiées de Cranelift
+    // touchaient des opérations vectorielles). Rust n'en émet pas par défaut en wasm32.
     c.wasm_relaxed_simd(false);
+    c.wasm_simd(false);
     // Pas de threads : la fonctionnalité n'est pas compilée dans wasmtime (Cargo.toml).
     c.wasm_multi_memory(false);
     c.wasm_memory64(false);
