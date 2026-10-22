@@ -5,9 +5,11 @@ use crate::config::{Kind, FINISHERS_TO_END, SIZE};
 use crate::movegen::{legal_moves, rows_to_go, Move, MoveKind};
 use crate::state::{Piece, Reason, State};
 
-/// Mise en place symétrique (R3.2) : E V S S V E sur les colonnes 2..7.
+/// Mise en place symétrique (R3.2) sur les colonnes 2..7, de la pièce la plus rapide au
+/// centre à la plus lente sur les côtés : S V E E V S (celle du serveur pour les nouvelles
+/// parties, « speed »).
 pub fn new_game(heights: [u8; crate::config::SQUARES]) -> State {
-    const ORDER: [Kind; 6] = [Kind::Explorer, Kind::Vanguard, Kind::Sentinel, Kind::Sentinel, Kind::Vanguard, Kind::Explorer];
+    const ORDER: [Kind; 6] = [Kind::Sentinel, Kind::Vanguard, Kind::Explorer, Kind::Explorer, Kind::Vanguard, Kind::Sentinel];
     let mut pieces = Vec::with_capacity(12);
     for (owner, row) in [(1u8, 0usize), (2u8, SIZE - 1)] {
         for (k, kind) in ORDER.iter().enumerate() {

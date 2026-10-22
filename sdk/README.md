@@ -10,7 +10,7 @@ puissance de calcul pour tous : c'est l'algorithme qui gagne, pas la machine.
 crate-type = ["cdylib"]
 
 [dependencies]
-traversal-bot = { git = "https://github.com/Sylv-Lej/traversal-rust-sdk", tag = "v0.1.0" }
+traversal-bot = { git = "https://github.com/Sylv-Lej/traversal-rust-sdk", tag = "v0.2.0" }
 ```
 
 ```rust

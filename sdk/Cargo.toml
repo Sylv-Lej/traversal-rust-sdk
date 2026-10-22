@@ -12,4 +12,4 @@ categories = ["games", "wasm"]
 
 [dependencies]
 # `version` : la dépendance publiée sur crates.io ; `path` : celle du dépôt.
-traversal-core = { path = "../core", version = "0.1.0" }
+traversal-core = { path = "../core", version = "0.2.0" }
